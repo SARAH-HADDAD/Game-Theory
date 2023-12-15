@@ -1,28 +1,28 @@
 import numpy as np
 
-def trouver_optimum_pareto(matrix):
-    _, num_strategies, _ = matrix.shape
+def is_pareto_optimal(matrix, strategy_profile):
+    # Check if there is no other strategy profile that makes at least one player better off
+    for other_profile in np.ndindex(matrix.shape[:-1]):
+        if all(matrix[strategy_profile] >= matrix[other_profile]) and any(matrix[strategy_profile] > matrix[other_profile]):
+            return False
+    return True
+
+def find_pareto_optimal_strategies(matrix):
     pareto_optimal_strategies = []
 
-    for i in range(num_strategies):
-        for j in range(num_strategies):
-            # Vérifier si (i, j) est un optimum de Pareto
-            if (matrix[:, i, :] <= matrix[:, j, :]).all():
-                continue  # Continue to the next iteration if Pareto Optimal
-        else:
-            pareto_optimal_strategies.append(tuple(matrix[:, i, :]))
+    # Iterate through all possible strategy profiles
+    for profile in np.ndindex(matrix.shape[:-1]):
+        if is_pareto_optimal(matrix, profile):
+            pareto_optimal_strategies.append(profile)
 
     return pareto_optimal_strategies
 
-# Exemple d'utilisation
-matrix = np.array([
-    [(0, 0), (75, -25)],
-    [(-25, 75), (50, 50)]
-])
+# Example with a 2x2x2 matrix for two players
+matrix_2_players = np.array([[[2, 1], [0, 0]], 
+                             [[0, 0], [1, 2]]])
 
-optimum_pareto = trouver_optimum_pareto(matrix)
+pareto_optimal_strategies = find_pareto_optimal_strategies(matrix_2_players)
 
-if not optimum_pareto:
-    print("Aucun optimum de Pareto trouvé.")
-else:
-    print(f"Points d'optimum de Pareto : {optimum_pareto}")
+# Print Pareto optimal strategies
+for profile in pareto_optimal_strategies:
+    print(f"Pareto Optimal Strategy: {profile}, Values: {matrix_2_players[profile]}")
