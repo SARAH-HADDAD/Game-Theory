@@ -1,6 +1,11 @@
 import numpy as np
 
 def support(strategies, probabilities):
+
+
+    #  le support de l’ensemble des probabilités 
+    #  représente l’ensemble des stratégies du joueur i ayant une probabilité non nulle.
+
     supports = {}
     supports_zero = {}
 
@@ -13,10 +18,12 @@ def support(strategies, probabilities):
     return supports, supports_zero
 
 def paiement_strategies(strategies, probabilities):
+    # représente le gain qu’aura le joueur i s’il jouera une de ses stratégie selon ce que jouera l’autre joueurs 
+    #  (ou les autres joueurs si nous avons plus de 2 joueurs).
     strategy_payoffs_dic = {}
 
     for player, player_strategies in strategies.items():
-        opponent_probabilities = probabilities[3 - player]  # Get the probabilities of the opponent player
+        opponent_probabilities = probabilities[3 - player]  
 
         strategy_payoffs = [sum(p1 * p2 for p1, p2 in zip(strategy, opponent_probabilities)) for strategy in player_strategies]
 
@@ -27,6 +34,8 @@ def paiement_strategies(strategies, probabilities):
     return strategy_payoffs_dic
 
 def paiement_joueur(probabilities, strategy_payoffs_dic):
+    # Appelée paiement joueur également, elle représente le gain d’un joueur 
+    # en fonction des ensembles des probabilités et la matrice des gains. 
     result = {}
 
     for player, probabilities in probabilities.items():
@@ -38,7 +47,7 @@ def paiement_joueur(probabilities, strategy_payoffs_dic):
 
     return result
 
-def check_indifference_to_support(supports, supports_zero, dic_strategy_payoffs, fct_utility):
+def IndifferenceSupport(supports, supports_zero, dic_strategy_payoffs, fct_utility):
     for player, strategies in dic_strategy_payoffs.items():
         support_values = [strategies[i] for i in supports[player]]
         zero_support_values = [strategies[i] for i in supports_zero[player]]
@@ -91,4 +100,4 @@ print_matrix(strategies)
 supports, supports_zero = support(strategies, probabilities)
 dic_strategy_payoffs = paiement_strategies(strategies, probabilities)
 fct_utiliter = paiement_joueur(probabilities, dic_strategy_payoffs)
-val = check_indifference_to_support(supports, supports_zero, dic_strategy_payoffs, fct_utiliter)
+val = IndifferenceSupport(supports, supports_zero, dic_strategy_payoffs, fct_utiliter)

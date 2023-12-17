@@ -23,10 +23,20 @@ for j in range(matrix.shape[2]):
     indices2.append([indice2, j])
 
 
-nash_equilibria = [index for index in indice1 if index in indices2]
-#print("Équilibres de Nash pur :", nash_equilibria)
+print("Matrice:")
+for row in matrix:
+    print("+-----------+-----------+")
+    for payoff in row:
+        print(f"| {payoff[0]:>3}, {payoff[1]:>4} ", end="")
+    print("|")
+print("+-----------+-----------+")
 
-for equilibrium in nash_equilibria:
+nash_equilibre = [index for index in indice1 if index in indices2]
+print("\n\n\n")
+print("Équilibres de Nash pur :", nash_equilibre)
+print("\n\n\n")
+
+for equilibrium in nash_equilibre:
     player1_strategy = equilibrium[0]
     player2_strategy = equilibrium[1]
     value = matrix[player1_strategy][player2_strategy]
