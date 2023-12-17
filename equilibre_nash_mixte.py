@@ -1,8 +1,9 @@
 import numpy as np
 
 matrix = np.array([
-    [[2, 1], [0, 0]],
-    [[0, 0], [1, 2]]
+    [[4, 13], [5, 1],[6,2]],
+    [[2, 1], [8, 4],[3,6]],
+    [[3, 0], [9, 6],[2,5]]
 ])
 
 def calculate_mixed_strategy(player, opponent):
